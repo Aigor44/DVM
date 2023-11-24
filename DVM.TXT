@@ -1,0 +1,607 @@
+
+
+
+
+
+
+
+
+
+
+                         ==============================
+                         DDDDD      V     V      M   M
+                         D    D     V     V     M M M M
+                         D    D     V     V     M  M  M
+                         D    D     V     V     M     M
+                         D    D      V   V      M     M
+                         D    D       V V       M     M
+                         DDDDD         V        M     M
+                         ==============================
+
+
+
+                          the Dunfield Virtual Machine
+
+
+
+
+
+
+
+                                  Release 1.0
+
+                              Revised 19-Apr-2021
+
+
+
+
+
+
+
+
+                         Dunfield Development Services
+                         -----------------------------
+                             High quality tools for
+                              Embedded Development
+
+                          ?COPY.TXT 2020 Dave Dunfield
+                              **See COPY.TXT**
+
+                      https://dunfield.themindfactory.com
+                      Download and see my product CATALOG.
+
+
+
+                            Dunfield Virtual Machine
+
+                               TABLE OF CONTENTS
+
+
+                                                                         Page
+
+     1. INTRODUCTION                                                        1
+
+        1.1 Why you might want to personally use it                         1
+        1.2 Other uses                                                      1
+
+     2. USING DVM                                                           6
+
+        2.1 Windows integration                                             8
+        2.2 Temporary files in RAM                                          9
+        2.3 DVM internal library                                            9
+        2.4 Remote Process interface                                       10
+
+     3. DIE: messages                                                      11
+
+    Dunfield Virtual Machine                                         Page: 1
+
+
+    1. INTRODUCTION
+
+          This is a virtual processor and  complete  system  that  lets  you
+       easily create and run  simple  but  powerful  programs  "pretty  much
+       anywhere". This free demo works on Win32/64 as that's the most common
+       mass market system that I have available in my lab.
+
+          NOTE: The initial release of this (Sep 2020) was pushed out fairly
+       quickly so some colleagues could see what I've been doing. I am still
+       changing the archive almost daily so please do  check  frequently  to
+       see what has improved.  Also,  Please let me know of any  issues  you
+       find.
+
+       1.1 Why you might want to personally use it
+
+             This will be useful to a some people  for  the  same  reason  I
+          originally decided to make it - you can write tools and  utilities
+          much faster and easier than with established development  software
+          for most modern systems,  and  you  could  easily  run  your  code
+          anywhere that DVM has been ported to.
+
+             For comparison,  the version of LCCwin32 that I have installed,
+          one  of  the  simplest  command  oriented  windows  C  development
+          toolsets that I have identified has 922 files occupying about  34m
+          of disk storage.  There are more than 400/10m header files  alone.
+          Compare  this  to  the  DVM  Micro-C  distribution  and  you  will
+          understand how much simpler DVM can make things.
+
+             DVM and my Micro-C compiler present a simple  environment  much
+          like the DOS days.  This has been remarkable effective, allowin me
+          to port almost all of 25+ years worth of  software  tools  that  I
+          developed under DOS to Win64 with almost no effort!
+
+             This version of DVM is licensed for free personal use only.  If
+          you  see  what  appears  to  be  this  version  relating  to   any
+          company/product,  please contact me  (information at end  of  this
+          file).
+
+       1.2 Other uses
+
+             I had originally planned to just make this for my own use,  but
+          as it came together,  I realized that there  could  be  other  and
+          possibly commercial uses for it. I don't think anything quite like
+          it exists.
+
+             If you have a  product  that  could  benefit  from  a  powerful
+          "scripting"  language,  or any other ability to let users run code
+          totaly under your control.
+
+             If you don't want to add one of the massive and  complex  tools
+          that exist (java?) to your product, and if you don't like the idea
+          of spending time  (and money)  creating and testing something new,
+          read on.
+
+             Note: The DVM name and the appearance of its various tools does
+          not have to appear as is  (or at  all)  in  your  product.  I  can
+          customize and adapt it to your liking.
+    Dunfield Virtual Machine                                         Page: 2
+
+
+          1.2.1 Additional benefits
+
+                You can have as much (or as little) system protection as you
+             wish.
+
+                Since DVM code is not run directly by the system  processor,
+             you can precisely control exactly what elements of your  system
+             it can access. You will not be dependent on an operating system
+             for which you may  or  may  not  have  development  control  to
+             provide protection from a running application.
+
+          1.2.2 Technical details
+
+                Here are some technical notes about DVM which may  help  you
+             in makeing a decision to use it in a product:
+
+              - It's powerful - the DVM processor is an  enhancement  to  my
+                "C-FLEA"  a virtual CPU I designed a few years back to be an
+                optimal target for my  C  compiler.  You  can  therefore  do
+                anything you can do in C. As you can see with DVM Micro-C it
+                runs all parts of my C compiler,  and has in fact taken  all
+                of my existing code that I've tossed at it.
+
+              - It's not limited to my C compiler. It is a complete and well
+                documented  system.  Other  languages/compilers/interpreters
+                could be ported to it quite  easily  (I  could  assist  with
+                this).  See some of my  Micro-C  example  programs  such  as
+                "BASIC.C", an interpreter that I wrote many years ago to see
+                how this could take shape.
+
+              - It's portable - As my own compiler doesn't directly  address
+                Windows64,  the DVM demo was  created  using  LCCwin32.  LCC
+                appears to be derived from GCC, which is a very well known C
+                development system that due to  it's  free  nature  is  very
+                commonly used and has been ported to MANY modern platforms.
+
+                GCC is available on various operating systems of  computers,
+                phones and other types of devices.  This allows  DVM  to  be
+                easily ported to other places.
+    Dunfield Virtual Machine                                         Page: 3
+
+
+              - It's small - the demo DVM.EXE in this  package  was  at  the
+                time of this writing around 15k  bytes  in  size.  That  was
+                compressed with UPX and the uncompressed tool was just  over
+                30k.
+
+                By today's standards that seems tiny,  but I still think  of
+                it as kinda biggish -- most of this code is used by:
+
+            1 - DVM virtual CPU.
+            2 - A fairly complete implementation of my MicroC/PC library.
+            3 - DOS emulation to support the MicroC/PC library.
+            4 - Some code to protect the executable from being easily hacked.
+            5 - Simple command line user interface.
+            6 - LCC windows libraries as used by LCCwin32.
+
+                NOTE:  While  building  DVM,  I  encountered   many   fairly
+                straightforward LCC library functions which made significant
+                increases to the size  of  DVM.EXE  (sometimes  as  much  as
+                double).  This shows that much of the code size  we  see  in
+                this executable is from LCC libraries.
+
+                Of the above,  only 1 and 2 would need to be added  to  most
+                products. ,i+
+
+             #1 DVM virtual CPU - This is TINY,  the core CPU (the part that
+                executes the DVM instruction set is less than 200  lines  of
+                C,  and does not make use of library functions.  Here is the
+                output of my CSTATS:
+
+                Characters:
+                  in file(s)   : 5681
+                  in comments  : 1064
+                  whitespace   : 1455
+                  significant  : 3162
+                Lines:
+                  in file(s)   : 168
+                  blank/comment: 14
+                  significant  : 154
+                Cism's:
+                  '{'s         : 16
+                  '}'s         : 16
+                  ';'s         : 163
+                  comments     : 70
+
+             #2 The library is quite big because it has to  have  a  lot  of
+                functions to make it a good general purpose  environment.  I
+                decided to put most of the  commonly  used  Micro-C  library
+                into the demo DVM executable so that you  wouldn't  have  to
+                deal with it.  There are several factors which will mitigate
+                the library size in other uses:
+
+                 - Most scripting languages will not have a general  purpose
+                   library,  and most of what you do want  will  be  already
+                   built into the  product  executable  as  these  functions
+                   would be used in other ways by the product.  All you will
+                   likely have to to provide is some interface code.
+    Dunfield Virtual Machine                                         Page: 4
+
+
+                 - The library was originally designed for  MicroC/PC  (DOS)
+                   and provides C access to  most  core  DOS  functions.  To
+                   support it,  this version of DVM has  pretty  decent  DOS
+                   emulation built in,  which would not be required in other
+                   products.
+
+                 - I have all but  the  lowest  level  hardware  interfacing
+                   library code available as  DVM  user  code  that  can  be
+                   linked into the loadable  program.  This  will  make  any
+                   given .DVM file larger,  but will prevent the  host  from
+                   having to supply "everything".
+
+              - The codesize of its applications is also small.  My compiler
+                is known for making  small  executables.  One  of  the  most
+                common comments I received about it was  "how  can  it  make
+                such small programs?".
+
+                Here some DVM application file sizes at  the  time  of  this
+                writing:
+                 3,281 CC.DVM           - Compile command
+                 6,320 MCP.DVM          - Micro-C preprocessor
+                17,440 MCCDVM.DVM       - Micro-C compiler
+                 4,064 MCODVM.DVM       - Micro-C optimizer
+                 1,210 MCCILIB.DVM      - Replaces calls internal library
+                 4,675 SLINK.DVM        - Source linker
+                 8,335 ASMDVM.DVM       - DVM assembler
+                 1,488 MCCVT.DVM        - Convert .HEX from ASM into .DVM
+                 8,656 EDT.DVM          - My EDT editor
+                 5,415 VLT.DVM          - My large text file viewer
+                 6,560 BASIC.DVM        - My "BASIC" sample program
+
+                Subtract 128 bytes from each of the above sizes because  the
+                free demo .DVMs have an integrated protection message.
+
+                And here are  the  same  program  compiled  with  my  PC/DOS
+                compiler:
+                 4,651 CC.COM
+                13,900 MCP.EXE          \
+                24,258 MCCDVM.EXE       > Micro-C was designed to be easily
+                12,792 MCODVM.COM       > portable, these tools make very
+                 3,479 MCCILIB.COM      > little use of library functions.
+                12,274 SLINK.EXE        /
+                17,650 ASMDVM.EXE
+                 4,361 MCCVT.COM
+                17,154 EDT.EXE
+                 7,444 VLT.COM
+                12,115 BASIC.EXE
+    Dunfield Virtual Machine                                         Page: 5
+
+
+          1.2.3 What you can get
+
+                We would have to discuss your requirements  to  work  out  a
+             final agreement but here are some thoughts:
+
+                You would get complete documentation on the virtual machine,
+             including  instruction  set,  encoding  and  other  unpublished
+             technical information.
+
+                You would get a version of the tools  with  my  "permission"
+             messages and accordingly the tamper  protection  removed.  This
+             "non-free" version of DVM.EXE also includes a complete debugger
+             allowing you to see what is happening at the virtual CPU level.
+             The debugger runs as a separate windows program with  it's  own
+             interaction window and communicates with DVM to work with it  -
+             you can see and control what DVM  is  doing  without  affecting
+             it's screen presentation.  Both screen  oriented  (visual)  and
+             command line versions of the debugger are available. This would
+             allow you to easily develop and test your own code for:
+
+                You would get DVM implemented  to  meet  your  requirements,
+             this would entail look and feel as  well  as  integration  into
+             your platform.  This would apply to it's tools as well  as  the
+             core module.
+
+                It would be ideal if you could arrange for me to have access
+             to a product platform where I can build  and  test  the  custom
+             virtual  machine.  Failing  that,  you  would  receive  regular
+             updates of source code based on my changes to build  into  your
+             product for testing.
+
+                DVMLIB is a program which walks through a .DVM image  as  if
+             it were being executed, identifying every instruction.  Library
+             calls can be patched to match a new library configuration. This
+             makes it easy to move my existing tools such  as  the  compiler
+             and utilities to run under a  custom  version  of  DVM  with  a
+             different library layout.  Source code is also available if you
+             need to do more customization, but this will quickly and easily
+             cover off most cases.
+
+                You will receive contact information for three people (three
+             is for redundancy - they will all perform the  same  function).
+             These people will also have your contact  information  so  they
+             can identify you as one of my clients.  They will also be  kept
+             up  to  date  with  my  latest   source   code   and   internal
+             documentation.  In the event that something  "happens"  to  me,
+             hopefully someone has been put in place to take  over,  but  if
+             not,  they will be able to give you all of my latest  code  and
+             documentation relating to your product.
+
+          1.2.4 Contacting me:
+
+                You can reach me through the contact links  of  my  personal
+             web page:
+
+                https://dunfield.themindfactory.com
+    Dunfield Virtual Machine                                         Page: 6
+
+
+    2. USING DVM
+
+       NOTE: Oct 2, 2020 - I have added an 'Ilib' value to .DVM files. Think
+       of this as a version number, but it won't change every time I release
+       new DVM.  It will increment whenever I make changes to  the  internal
+       library,  or for some other reason a .DVM file built under  an  older
+       DVM might not be fully compatible with newer  versions.  This  is  to
+       avoid problems running older applications which should be rebuilt  or
+       at least patch'd with DVMLIB.
+
+          DVM  is  a  simple  windows  executable.  It  does   not   require
+       installation,  just run it and give it the name of a .DVM application
+       program to load and run.  Any additional options on the command  line
+       will be passed to the application just as if were run directly.
+
+          The .DVM extension is not required.  '.DVM'  will be assumed if no
+       extension is given in the application name.
+
+          If the name contains a path,  DVM will attempt  to  load  it  from
+       there.
+
+          If no path is given,  DVM will look to see if the .DVM file exists
+       in the current directory, and if so will run it from there.
+
+          If not it will next check the directory where DVM.EXE  is  located
+       !IF IT CAN! I don't know  if  it's  Windows,  LCC  or  both,  but  an
+       executable cannot ALWAYS determine where it came  from.  The  argv[0]
+       passed by the system which should contain the  full  program  path  -
+       DOES if the executable was launched by "clicking"  it ...  but if run
+       from the command line,  argv[0] only has what was actually typed - If
+       a path was typed it will be there - if only "DVM", was typed with the
+       executable  having  been  found/launched  by  windows  searching  the
+       directories laid out in PATH environment  variable  -  NONE  of  this
+       information is supplied.
+
+          A partial path relative to the current directory is enough for DVM
+       to locate it's files, but I don't recommend this because it makes DVM
+       set argv[0] of any .DVM programs it runs to that partial path. I urge
+       you to launch DVM with argv[0] containing the full path. One easy way
+       to do this is to put DVM.BAT  in  your  search  path  which  launches
+       DVM.EXE by specifying a full path.
+
+          This is the main reason I added...
+
+          If DVM cannot otherwise find the .DVM file,  it will check to  see
+       if the environment variable "DVM" exists, and if so, treats it like a
+       command PATH,  looking for it's  application  there.  This  may  have
+       multiple directories seperated by ';', and DVM will look in each one.
+       This environment variable may also used  by  some  applications,  for
+       example Micro-C's CC commands will look in  the  to  first  directory
+       identified there if MCDIR is not defined.
+
+          If an application performs getenv("DVM",  ...) and the environment
+       variable "DVM" does not exist, DVM will return it's home directory if
+       it was able to determine it, otherwise getenv() will return 0.
+    Dunfield Virtual Machine                                         Page: 7
+
+
+          This makes it easy to make DVM work from anywhere on  the  command
+       line without having to set  ANY  environment  variables.  Simply  put
+       DVM.BAT somewhere in your path containing:
+            @echo OFF
+            C:\full\path\to\DVM.EXE %1 %2 %3 %4 %5 %6 %7 %8 %9
+
+       This DVM distribution includes:
+
+    DVM.TXT     <- This file
+    CFLEA.TXT   <- The original docs for the virtual CPU on which DVM is based.
+    DVM.EXE     <- The DVM executable for windows.
+    SETUP.BAT   <- You can click this to run:
+    SETUP.DVM   <- Helps get DVM integrated on a system.
+    DVMLIB.DVM  <- Can patch a .DVM to use a new library layout.
+    ARGS.DVM    <- Lets you test/see what Windows does to command arguments.
+    EDT.DVM     <- My EDT editor
+    EDT.TXT     <- Documentation for ""
+    VLT.DVM     <- View large text file (good to see docs) use ? for help.
+
+       Some of these were DOS programs.  They  (and it seems the LCC TURBO-C
+       video functions) expect a DOS 80x25 text screen. For best results:
+
+       Under properties for your command window,  select a layout  of  80x25
+       and pick a suitable font size.  Note:  Set  both  "window  size"  and
+       "screen buffer size"  to 80x25,  otherwise LCC does not always scroll
+       properly.
+    Dunfield Virtual Machine                                         Page: 8
+
+
+       2.1 Windows integration
+
+             I have tested DVM under WinXP,  Wim7 and Win10.  The  following
+          notes are from Win7 but I'd assume  similar  information  for  the
+          others.
+
+             You can make a DVM program run by  "clicking"  by setting up  a
+          shortcut to the DVM.EXE executable,  then using it's "properties",
+          modify it to include the desired application name and operands  in
+          "Target".
+
+             It's a good idea to setup the DVM environment variable  to  let
+          DVM know where it's home directory and applications are - On  Win7
+          you can do this from the "Advanced"  tab of "System Protection"  -
+          you can get there by right-clicking "computer" -> Properties.
+
+             You can make it so you can run .DVM files just be clicking them
+          directly with the windows commands  (will require a CMD with admin
+          privilege):
+            ASSOC .DVM=DVM
+            FTYPE DVM={insert full path}dvm.exe %1 %*
+
+          You can also run them from the command line  just  by  typing  the
+          filename, however you will have to provide the .DVM extension.  If
+          you want windows to be able to run them without having to type the
+          extension:
+             set PATHEXT=.DVM;%PATHEXT%
+
+          Some  of  my  software  accepts  command  argumets  in  the  form:
+          'text=text'. For example, my compiler allows you to preset #define
+          symbols this way.
+
+                             ie:  CC pgm NAME=Dave
+
+          will behave as if the line ' #define NAME Dave ' was in the source
+          file. This worked well under DOS and Windows up to XP-Win7/32, but
+          Win64 does not take '='  in command arguments,  treating the above
+          as if 'NAME'  and  'DAVE'  were two distinct arguments without the
+          '='.  There is a work-around,  you have to quote the argument,  so
+          the above command becomes:
+
+                               CC pgm "NAME=Dave"
+
+          I have provided ARGS.DVM which will let  you  test  and  see  what
+          exactly your version of Windows does to command arguments.
+    Dunfield Virtual Machine                                         Page: 9
+
+
+       2.2 Temporary files in RAM
+
+             This version of DVM includes a very basic method of  using  RAM
+          for large temp.  storage and makes it accessible though  the  file
+          system.  I added this capability so that you wouldn't have to deal
+          with setting up storage for the temp files created/deleted  during
+          the Micro-C compiling process.
+
+             Once I got it working, I decided that it was useful enough that
+          others might want to use it.  For more information  refer  to  the
+          RDsetup()  library function documented  in  the  Micro-C  for  DVM
+          documentation.
+
+       2.3 DVM internal library
+
+             Note that I created DVM mainly to make it easy  to  move  years
+          worth of software I  had  written  for  DOS  to  other  platforms,
+          consequently the  library  looks  much  like  the  Micro-C/PC  DOS
+          library! - note that this would not be applicable if you  use  DVM
+          in a product (unless you wanted it to).  A DVM library can be made
+          to perform any functions and in any way that you like.
+
+             The  Micro-C  for  DVM  documentation   contains   a   complete
+          description of the library built itto the free Windows DVM.
+
+             This DVM internal library is  used  just  like  any  C  library
+          (stack args before invoking library function), except that instead
+          of a CALLing a function,  you use OPCODE 255 followed  by  a  byte
+          with the library function ID: DB 0xFF,fn
+
+             The  Micro-C  CC  command  uses  a  progam  called  MCCILIB  to
+          translate  calls  to  known  library  function  names   into   the
+          corresponding: DB 0xFF,fn
+
+             Look at Micro-Cs DVMLIB\MCCILIB.CFG to get function  names  and
+          ID numnbers.
+    Dunfield Virtual Machine                                         Page: 10
+
+
+       2.4 Remote Process interface
+
+             The DVM library includes  RPstart(),  RPwrite(),  RPread()  and
+          RPend()  functions which allow it to control and communicate  with
+          "remote proceses",  which are native Win32  apps  runnins  on  the
+          host.
+
+             RPstart()  launches a Windows native program,  passing  it  two
+          arguments which are the decimal numbers for two handles which have
+          been created.  Communication between DVM and the Remote Process is
+          via OS pipes and looks like simple  binary  file  I/O  operations.
+          Each "message" is in the form:
+
+                ll,hh,          <= Size of followng data
+                dd,...          <= Data bytes to send
+
+             One of the arguments for RPstart()  is the maximum size of data
+          blocks.  The client should know the largest size block it  expects
+          to receive and pass this same value to RDpread(). A value of ll,hh
+          which exceeds this parameter is a special case  which  causes  the
+          Remote Process to terminate itself.
+
+             DVM sends one message for each requesst and then block  waiting
+          to receive one message as a response.
+
+             See DVMRP.ZIP in my downloads for an example of  a  DVM  Remote
+          Process.
+    Dunfield Virtual Machine                                         Page: 11
+
+
+    3. DIE: messages
+
+       You may see messages with the prefix  "DIE:".  This stands  for  "Dvm
+       Internal Error"  and indicates an  unexpected  occurance  within  the
+       virtual machine.
+
+       In the following descriptons:  NAME is  your  .DVM  file,  DEC  is  a
+       decimal number, HEX is a hexidecimal number, and STATE are the C-FLEA
+       virtual CPU registers: A=accumulator I=indexregister P=programcounter
+       S=stackpointer.
+
+       DIE: DVM corrupt - possible tampering!
+
+          DVM.EXE does not pass it's internal tests. This is a possible sign
+          that it has been tampered with.
+
+       DIE: NAME is corrupt
+
+          The .DVM program you are trying to laumch has an invalid header.
+
+       DIE: NAME IlibDEC, DVM IlibDEC
+
+          The .DVM program has a later Ilib that DVM
+
+       DIE: NAME load failed
+
+          A read error when loading the .DVM program into memory.
+
+       DIE: Arg - STATE
+
+          DVM was unable to create & stack argc/argv[]
+
+       DIE: Input DEC - STATE
+
+          The program attempted to WRITE an unimplemented I/O port.
+
+       DIE: Output DEC - STATE
+
+          The program attempted to READ an inimplimented I/O port.
+
+       DIE: SysCall DEC - STATE
+
+          The .DVM program made an unimplimented system call.
+
+       DIE: execNUL - STATE
+
+       DIE: RPread(DEC) - STATE
+
+          An error occured in RPread,  data was available in the  pipe,  but
+          not two bytes as expected for the size header.
+
+       DIE: RPread(DEC1 DEC2) - STATE
+
+          An error occured in RPread,  the header indicated DEC1 bytes,  but
+          DEC2 bytes were actually read.
